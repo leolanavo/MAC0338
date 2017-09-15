@@ -1,0 +1,3 @@
+kesimo (V, t)
+    m = caixa-preta(V, t)
+    

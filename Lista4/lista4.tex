@@ -1,0 +1,60 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{listings}
+\renewcommand{\rmdefault}{ptm}
+\usepackage{xcolor}
+\usepackage{inconsolata}
+
+\lstset{
+    language=bash, %% Troque para PHP, C, Java, etc... bash é o padrão
+    basicstyle=\ttfamily\small,
+    numberstyle=\footnotesize,
+    numbers=left,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    tabsize=2,
+    rulecolor=\color{black!30},
+    title=\lstname,
+    escapeinside={\%*}{*)},
+    breaklines=true,
+    breakatwhitespace=true,
+    framextopmargin=2pt,
+    framexbottommargin=2pt,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1,
+}
+
+
+\title{Lista 4 - MAC0338}
+\author{Leonardo Lana Violin Oliveira - 9793735}
+\date{27 de Agosto de 2017}
+
+\begin{document}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{8}
+
+Nesta resolução usaremos uma função similar ao \textit{CountingSort}, com duas
+mudanças, não há mais a ordenação no loop final da função e esta nova função,
+chamaremos ela de \textit{Counting}, retorna o vetor com as soma acumulativa
+(número de elementos que há entre a primeira posição do vetor e a
+\textit{i}-ésima posição do mesmo).
+
+Para a consulta basta pega este vetor com a soma acumulativa e subtrair o
+conteúdo da \textit{a}-ésima com o da \textit{b}-ésima, ou seja, sendo
+\textit{v} o vetor da soma acumulativa, a nossa consulta deveria retornar
+$v[b] - v[a]$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

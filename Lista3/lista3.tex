@@ -1,0 +1,153 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{listings}
+\renewcommand{\rmdefault}{ptm}
+\usepackage{xcolor}
+\usepackage{inconsolata}
+
+\lstset{
+    language=bash, %% Troque para PHP, C, Java, etc... bash é o padrão
+    basicstyle=\ttfamily\small,
+    numberstyle=\footnotesize,
+    numbers=left,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    tabsize=2,
+    rulecolor=\color{black!30},
+    title=\lstname,
+    escapeinside={\%*}{*)},
+    breaklines=true,
+    breakatwhitespace=true,
+    framextopmargin=2pt,
+    framexbottommargin=2pt,
+    inputencoding=utf8,
+    extendedchars=true,
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1,
+}
+
+
+\title{Lista 3 - MAC0338}
+\author{Leonardo Lana Violin Oliveira - 9793735}
+\date{27 de Agosto de 2017}
+
+\begin{document}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{A}
+O número esperado de comparações na linha 6 é $E[X]$, onde $X$ é o número de vezes que
+o elemento $i$ do vetor não é o maior elemento do subvetor $v[1...i]$, então podemos
+afirmar que $X = \sum_{i = 1}^{n} X_i$, onde
+$$ X_i = 
+\begin{cases}
+1 , \text{se o elemento \textit{i} do subvetor \textit{v[1...i]} não é o maior
+elemento deste subvetor} \\
+0, cc
+\end{cases}
+$$
+
+Já que a probabilidade é uniforme, então temos que a probabilidade de um elemento não
+ser o maior elemento do subvetor de tamanho $i$ é $Pr\{X_i = 1\} = 1 - \dfrac{1}{i}$,
+logo:
+
+\begin{align*}
+E[X] &= \sum_{i = 0}^{n} E[X_i] = \sum_{i=0}^{n} Pr\{X_i = 1\} = \\
+	 &= \sum_{i = 0}^{n} 1 - \dfrac{1}{i} = 
+     \sum_{i = 0}^{n} 1 - \sum_{i = 0}^{n} \dfrac{1}{i} = \\
+     &= n - \sum_{i = 0}^{n} \dfrac{1}{i} > n - (\ln n) = \mathcal{O}(n) \\
+     &\text{\textbf{OU}}\\
+     &= n - \sum_{i = 0}^{n} \dfrac{1}{i} < n - (\ln n + 1) = \Omega(n)
+\end{align*}
+
+Logo, $E[X] = \Theta(n)$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{B}
+
+O número esperado de atribuições feitas na linha 7 é $E[Y]$, onde Y é o número de vezes
+que o elemento $i$ do vetor é o menor elemento do subvetor $v[1...i]$, então podemos
+afirmar que $Y = \sum_{i = 0}^{n} Y_i$, onde
+
+$$ Y_i = 
+\begin{cases}
+1, \text{se o elemento $i$ do vetor é o menor elemento do subvetor $v[1...i]$}\\
+0, cc
+\end{cases}
+$$
+
+Já que a probabilidade é uniforme, então temos que a probabilidade de um elemento
+ser o menor elemento do subvetor de tamanho $i$ é $Pr\{Y_i = 1\} = \dfrac{1}{i}$, logo:
+
+\begin{align*}
+E[Y] &= \sum_{i = 0}^{n} E[Y_i] = \sum_{i = 0}^{n} Pr\{Y_i = 1\} = \\
+	 &= \sum_{i = 0}^{n} \dfrac{1}{i} = \Theta(\lg n)
+\end{align*}
+
+Então o valor esperado para o número de atribuições na linha 7 é $\Theta(\lg n)$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{8}
+\begin{lstlisting}[mathescape=true]
+Mediana(V, c, f)
+    t <- f - c + 1
+    pos <- (f + c)/2
+    Se t%2 != 0, então
+        Retorna V[$\lceil$pos$\rceil$]
+    senão,
+        Retorna (V[pos] + V[pos + 1])/2
+
+SAmediana (V1, c1, f1, V2, c2, f2)
+    m1 <- Mediana(V1, c1, f1)
+    m2 <- Mediana(V2, c2, f2)
+    t <- f1 - c1 + 1
+    pos <- (f1 + c1)/2
+
+    Se t = 2, então
+        Vm = Intercala(V1, c1, f1, V2, c2, f2, 4)
+        Retorna Mediana(Vm, 1, 4)
+
+    senão se m1 > m2, então
+        Se t%2 = 0, então
+            Retorna (SAmediana(V1, c1, pos+1, V2, pos, f2))
+        senão,
+            Retorna (SAmediana(V1, c1, $\lceil$pos$\rceil$, V2, $\lceil$pos$\rceil$, f2))
+    
+    senão se (m1 < m2), então
+        Se t%2 = 0, então
+            Retorna (SAmediana(V1, pos, f1, V2, c2, pos+1))
+        senão,
+            Retorna (SAmediana(V1, $\lceil$pos$\rceil$, f1, V2, c2, $\lceil$pos$\rceil$))
+    
+    senão,
+    Retorna m1
+
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{9}
+Para entendimento da descrição, vamos chamar a função \textit{caixa-preta} de
+\textit{mediana}. E usaremos a função \textit{PARTICIONE} do \textit{QUICKSORT}.
+
+Dado um vetor, usaremos a função \textit{mediana} para obter o valor da mediana,
+e procuraremos a posição deste valor no vetor ($\mathcal{O}(n)$), e chamamos o 
+\textit{PARTICIONE} usando o índice da mediana, para particionar o vetor em duas 
+metades, a primeira metade menor que a mediana e a segunda metade é maior que a
+mediana.
+
+Comparamos o $k$ com a posição da mediana, se os valores forem iguais, o
+algoritmo encerra, se $k$ menor que a posição, a função será chamada
+recursivamente para a primeira metade do vetor, caso $k$ seja o valor maior, a
+recursão será chamada para o segunda metade do vetor.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

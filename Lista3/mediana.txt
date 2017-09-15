@@ -1,0 +1,30 @@
+Mediana(V, c, f)
+    t <- f - c + 1
+    Se t%2 != 0, então
+        Retorna V[c + teto(t/2)]
+    senão,
+        Retorna (V[c + t/2] + V[c + t/2 + 1])/2
+
+SAmediana (V1, c1, f1, V2, c2, f2)
+    m1 <- Mediana(V1, c1, f1)
+    m2 <- Mediana(V2, c2, f2)
+    t <- f1 - c1 + 1
+    
+    Se t = 2, então
+        Vm = Intercala(V1, c1, f1, V2, c2, f2, 4)
+        Retorna Mediana(Vm, 1, 4)
+
+    senão se m1 > m2, então
+        Se t%2 = 0, então
+            Retorna (SAmediana(V1, c1, t/2+1, V2, t/2, f2))
+        senão,
+            Retorna (SAmediana(V1, c1, teto(t/2), V2, teto(t/2), f2))
+    
+    senão se (m1 < m2), então
+        Se t%2 = 0, então
+            Retorna (SAmediana(V1, t/2, f1, V2, c2, t/2+1))
+        senão,
+            Retorna (SAmediana(V1, teto(t/2), f1, V2, c2, teto(t/2)))
+    
+    senão,
+        Retorna m1
